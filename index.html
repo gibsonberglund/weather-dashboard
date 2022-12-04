@@ -13,24 +13,31 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <span class="sidebar">
-        <h2>Search for a City</h2>
-        <input type="text" id="searchbar"></input>
-        <div class="citycard" id="searchbtn">Search</div>
-        <ul id="citylist"></ul>
-    </span>
-    <section class="maindisplay"></section>
-    <section class ="fiveday">
-        <h3>Five Day Forecast: </h3>
-        <div class="fivedaycard" id="1"></div>
-        <div class="fivedaycard" id="2"></div>
-        <div class="fivedaycard" id="3"></div>
-        <div class="fivedaycard" id="4"></div>
-        <div class="fivedaycard" id="5"></div>
+    <main class="mainbody">
+        <span class="sidebar">
+            <h2>Search for a City</h2>
+            <input type="text" id="searchbar"></input>
+            <div class="citycard" id="searchbtn">Search</div>
+            <ul id="citylist"></ul>
+        </span>
+        <section class="maindisplay" id="maindisplay">
+            <h2 id="displaylabel"></h2>
+            <p id="icon"></p>
+            <p id="temp"></p>
+            <p id="wind"></p>
+            <p id="humidity"></p>
+        </section>
+        <section class ="fiveday">
+            <h3>Five Day Forecast: </h3>
+            <div class="fivedaycard" id="1"></div>
+            <div class="fivedaycard" id="2"></div>
+            <div class="fivedaycard" id="3"></div>
+            <div class="fivedaycard" id="4"></div>
+            <div class="fivedaycard" id="5"></div>
     </section>
+    </main>
 
     <script src="./assets/script.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </body>
