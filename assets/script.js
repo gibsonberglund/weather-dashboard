@@ -2,7 +2,7 @@ var APIkey = "8aedb52cbdaa6a88589ed59b02b9ef8d";
 
 var searched = document.querySelector('#searchbar');
 
-var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + searched + "&appid=" + APIkey;
+var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + searched.value + ',USA' + "&appid=" + APIkey;
 
 var search = document.querySelector('#searchbtn');
 
@@ -15,17 +15,9 @@ var displayWind = document.querySelector('#wind');
 var displayHum = document.querySelector('#humidity');
 var displayIcon = document.querySelector('#icon');
 
-/*
-search.querySelector('click', function(){
-    fetch(queryURL)
-    .then(function(response){
-        return console.log(response.JSON);
-})});
-*/
 
 //when search button is clicked...
 search.addEventListener('click', function(){
-    console.log(searched.value);
 //create a new card in sidebar with city name
     var searchedCity = document.createElement('li');
     searchedCity.textContent = searched.value;
@@ -38,18 +30,17 @@ search.addEventListener('click', function(){
     displayTemp.textContent = 'Temp: ';
     displayWind.textContent = 'Wind: ';
     displayHum.textContent = 'Humidity: ';
-});
 
-//list of searched cities appears in sidebar
-/*
+//fetch api data
+    fetch(queryURL)
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            console.log(data);
+            console.log(data.wind.deg);
+})});
 
-    const searchedCity = document.createElement('li');
-    const node = document.createTextNode('searchbar.value');
-    searchedCity.appendChild(node);
-    const cityList = document.getElementById('#citylist');
-    cityList.appendChild(searchedCity);
-});
-*/
 
 var requestUrl
 
@@ -58,3 +49,5 @@ var requestUrl
 //display the next five days below, each day in their own display card
 //diplay list of searched cities on the sidebar
     //when previous searches are clicked, they become the main display
+
+    //US country code : US/USA/840/ISO 3166-2:US, try 840 first
