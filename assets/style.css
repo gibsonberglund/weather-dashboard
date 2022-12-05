@@ -22,13 +22,42 @@ h1 {
     margin-bottom: 5px;
 }
 
+.mainbody {
+    display: flex;
+    flex-direction: row;
+}
+
 .maindisplay {
-    width: 75%;
-    margin-left: 25%;
+    width: 50%;
+    margin-left: 10%;
     height: 250px;
     border: 2px solid black;
 }
 
 #displaylabel {
     margin-left: 10px;
+}
+
+
+.fivedaycard {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border: 2px solid black;
+}
+
+.hidden {
+    display: none;
+}
+
+#date {
+    color: blue;
+}
+
+.example {
+    color: rgba(59, 59, 59, 0.721);
+}
+
+.fiveday {
+    display: block;
 }
