@@ -54,7 +54,7 @@ search.addEventListener('click', function () {
     var searchedNoSpaces = searched.value.replaceAll(' ', '');
 
     //query for current weather
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + searchedNoSpaces + ',840' + "&appid=" + APIkey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedNoSpaces + ',840' + "&appid=" + APIkey;
     console.log(queryURL);
     fiveDay.setAttribute('class', 'fiveday');
     var searchedCity = document.createElement('li');
@@ -89,7 +89,7 @@ search.addEventListener('click', function () {
             }
 
             //fetch forecast data and convert to json
-            var FiveDayQueryURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + data.coord.lat + '&lon=' + data.coord.lon + "&cnt=5" + "&appid=" + APIkey;
+            var FiveDayQueryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + data.coord.lat + '&lon=' + data.coord.lon + "&cnt=5" + "&appid=" + APIkey;
             fetch(FiveDayQueryURL)
                 .then(function (response) {
                     return response.json();
