@@ -15,7 +15,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
-<body>
+<body id='body' class='cloudy'>
     <header>
         <h1>Weather Dashboard</h1>
     </header>
@@ -23,30 +23,50 @@
         <span class="sidebar">
             <h2>Search for a City</h2>
             <p class="example">Must be US city</p>
-            <p class="example">Format: Example, EX</p>
-            <input type="text" id="searchbar"></input>
-            <div class="citycard" id="searchbtn">Search</div>
+            <input placeholder="ex: Minneapolis, MN" type="text" id="searchbar"></input>
+            <div class="button" id="searchbtn">Search</div>
             <ul id="citylist"></ul>
         </span>
         <section class="maindisplay" id="maindisplay">
-            <h2 id="displaylabel"></h2>
-            <p id="date"></p>
-            <p id="icon"></p>
-            <p id="temp"></p>
-            <p id="wind"></p>
-            <p id="humidity"></p>
+            <div class="citydate">
+                <h2 id="displaylabel"></h2>
+                <p id="date"></p>
+            </div>
+            <ul class="infolist">
+                
+                <li id="icon"></li>
+                <li id="temp"></li>
+                <li id="wind"></li>
+                <li id="humidity"></li>
+            </ul>
+            <img id='gif' class="hidden">
         </section>
     </main>
     <section class ="hidden" id="fiveday">
         <h3>Five Day Forecast: </h3>
-        <div class="fivedaycard" id="one"></div>
-        <div class="fivedaycard" id="two"></div>
-        <div class="fivedaycard" id="three"></div>
-        <div class="fivedaycard" id="four"></div>
-        <div class="fivedaycard" id="five"></div>
+        <div class="fivedaycard">
+            <h2 id="dayonetitle"></h2>
+            <p  id="one"></p>
+        </div>
+        <div class="fivedaycard">
+            <h2 id="daytwotitle"></h2>
+            <p  id="two"></p>
+        </div>
+        <div class="fivedaycard">
+            <h2 id="daythreetitle"></h2>
+            <p  id="three"></p>
+        </div>
+        <div class="fivedaycard">
+            <h2 id="dayfourtitle"></h2>
+            <p  id="four"></p>
+        </div>
+        <div class="fivedaycard">
+            <h2 id="dayfivetitle"></h2>
+            <p  id="five"></p>
+        </div>
     </section>
 
-    <script src="./assets/script.js"></script>
+    <script src="./script.js"></script>
 
     
 </body>

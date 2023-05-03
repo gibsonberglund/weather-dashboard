@@ -1,5 +1,7 @@
 var APIkey = "8aedb52cbdaa6a88589ed59b02b9ef8d";
 
+let bodyImage = document.querySelector('#body');
+
 //user input
 var searched = document.querySelector('#searchbar');
 
@@ -30,6 +32,12 @@ var forecast3 = document.querySelector('#three');
 var forecast4 = document.querySelector('#four');
 var forecast5 = document.querySelector('#five');
 
+let dayOneTitle = document.querySelector('#dayonetitle');
+let dayTwoTitle = document.querySelector('#daytwotitle');
+let dayThreeTitle = document.querySelector('#daythreetitle');
+let dayFourTitle = document.querySelector('#dayfourtitle');
+let dayFiveTitle = document.querySelector('#dayfivetitle');
+
 var sun = '☀️';
 var cloud = '☁';
 
@@ -47,6 +55,8 @@ var foredate3 = dayjs().add(3, 'day').format('ddd, MMM D');
 var foredate4 = dayjs().add(4, 'day').format('ddd, MMM D');
 var foredate5 = dayjs().add(5, 'day').format('ddd, MMM D');
 
+let gif = document.querySelector('#gif');
+
 //when search button is clicked...
 search.addEventListener('click', function () {
     //create a new card in sidebar with city name
@@ -56,7 +66,7 @@ search.addEventListener('click', function () {
     //query for current weather
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedNoSpaces + ',840' + "&appid=" + APIkey;
     console.log(queryURL);
-    fiveDay.setAttribute('class', 'fiveday');
+    fiveDay.setAttribute('class', 'row');
     var searchedCity = document.createElement('li');
     searchedCity.textContent = searched.value;
     searchedCity.setAttribute('class', 'citycard');
@@ -65,6 +75,12 @@ search.addEventListener('click', function () {
     //add city name to main display
     displayLabel.textContent = searched.value;
     dateDisplay.textContent = date;
+
+    forecast1.textContent = '';
+    forecast2.textContent = '';
+    forecast3.textContent = '';
+    forecast4.textContent = '';
+    forecast5.textContent = '';
 
     //fetch current weather api data
     fetch(queryURL)
@@ -84,8 +100,23 @@ search.addEventListener('click', function () {
             //change icon depending on if it's sunny or cloudy
             if (data.weather[0].main === "Clear") {
                 displayIcon.textContent = sun;
-            } else {
+                gif.src = './assets/images/sun-gif.gif';
+                gif.setAttribute('class', 'gif');
+                // bodyImage.setAttribute('class', 'sunny');
+            } else if (data.weather[0].main === "Rain") {
                 displayIcon.textContent = cloud;
+                gif.src = './assets/images/rain-gif.gif';
+                gif.setAttribute('class', 'gif');
+            } else if (data.weather[0].main === "Clouds") {
+                if (data.weather[0].description === "overcast clouds") {
+                    displayIcon.textContent = cloud;
+                    gif.src = './assets/images/overcast-meme.jpg';
+                    gif.setAttribute('class', 'gif');
+                } else {
+                    displayIcon.textContent = cloud;
+                    gif.src = './assets/images/partly-cloudy-gif.gif';
+                    gif.setAttribute('class', 'gif');
+                }
             }
 
             //fetch forecast data and convert to json
@@ -100,7 +131,7 @@ search.addEventListener('click', function () {
 
                     //forecast day 1
                     forecast1.setAttribute('style', 'white-space: pre;');
-                    forecast1.textContent = foredate1 + ' \r\n';
+                    dayOneTitle.textContent = foredate1 + ' \r\n';
                     if (data.list[0].weather[0].main === "Clear") {
                         forecast1.textContent += sun + '\r\n';
                     } else {
@@ -112,7 +143,7 @@ search.addEventListener('click', function () {
 
                     //forecast day 2
                     forecast2.setAttribute('style', 'white-space: pre;');
-                    forecast2.textContent = foredate2 + ' \r\n';
+                    dayTwoTitle.textContent = foredate2 + ' \r\n';
                     if (data.list[1].weather[0].main === "Clear") {
                         forecast2.textContent += sun + '\r\n';
                     } else {
@@ -124,7 +155,7 @@ search.addEventListener('click', function () {
 
                     //forecast day 3
                     forecast3.setAttribute('style', 'white-space: pre;');
-                    forecast3.textContent = foredate3 + ' \r\n';
+                    dayThreeTitle.textContent = foredate3 + ' \r\n';
                     if (data.list[2].weather[0].main === "Clear") {
                         forecast3.textContent += sun + '\r\n';
                     } else {
@@ -136,7 +167,7 @@ search.addEventListener('click', function () {
 
                     //forecast day 4
                     forecast4.setAttribute('style', 'white-space: pre;');
-                    forecast4.textContent = foredate4 + ' \r\n';
+                    dayFourTitle.textContent = foredate4 + ' \r\n';
                     if (data.list[3].weather[0].main === "Clear") {
                         forecast4.textContent += sun + '\r\n';
                     } else {
@@ -148,7 +179,7 @@ search.addEventListener('click', function () {
 
                     //forecast day 5
                     forecast5.setAttribute('style', 'white-space: pre;');
-                    forecast5.textContent = foredate5 + ' \r\n';
+                    dayFiveTitle.textContent = foredate5 + ' \r\n';
                     if (data.list[4].weather[0].main === "Clear") {
                         forecast5.textContent += sun + '\r\n';
                     } else {
