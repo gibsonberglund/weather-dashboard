@@ -32,11 +32,15 @@ var forecast3 = document.querySelector('#three');
 var forecast4 = document.querySelector('#four');
 var forecast5 = document.querySelector('#five');
 
-let dayOneTitle = document.querySelector('#dayonetitle');
-let dayTwoTitle = document.querySelector('#daytwotitle');
-let dayThreeTitle = document.querySelector('#daythreetitle');
-let dayFourTitle = document.querySelector('#dayfourtitle');
-let dayFiveTitle = document.querySelector('#dayfivetitle');
+let forecasts = [forecast1, forecast2, forecast3, forecast4, forecast5];
+
+let day1Title = document.querySelector('#dayonetitle');
+let day2Title = document.querySelector('#daytwotitle');
+let day3Title = document.querySelector('#daythreetitle');
+let day4Title = document.querySelector('#dayfourtitle');
+let day5Title = document.querySelector('#dayfivetitle');
+
+let dayTitles = [day1Title, day2Title, day3Title, day4Title, day5Title];
 
 var sun = '☀️';
 var cloud = '☁';
@@ -46,6 +50,7 @@ function clearInput() {
 }
 
 clearInput();
+//CLEAR LOCAL STORAGE
 
 //dayjs date display variables
 var date = dayjs().format('dddd, MMMM D, h:mm A');
@@ -55,7 +60,10 @@ var foredate3 = dayjs().add(3, 'day').format('ddd, MMM D');
 var foredate4 = dayjs().add(4, 'day').format('ddd, MMM D');
 var foredate5 = dayjs().add(5, 'day').format('ddd, MMM D');
 
+let foredates = [foredate1, foredate2, foredate3, foredate4, foredate5];
+
 let gif = document.querySelector('#gif');
+
 
 //when search button is clicked...
 search.addEventListener('click', function () {
@@ -131,65 +139,20 @@ search.addEventListener('click', function () {
                 .then(function (data) {
                     console.log(data);
                     localStorage.setItem('5dayCity1', JSON.stringify(data));
-                    //forecast day 1
-                    forecast1.setAttribute('style', 'white-space: pre;');
-                    dayOneTitle.textContent = foredate1 + ' \r\n';
-                    if (data.list[0].weather[0].main === "Clear") {
-                        forecast1.textContent += sun + '\r\n';
-                    } else {
-                        forecast1.textContent += cloud + '\r\n';
-                    }
-                    forecast1.textContent += 'Temp: ' + Math.round((data.list[0].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
-                    forecast1.textContent += 'Wind: ' + Math.round(data.list[0].wind.speed) + 'mph \r\n';
-                    forecast1.textContent += 'Humidity: ' + data.list[0].main.humidity + '% \r\n';
 
-                    //forecast day 2
-                    forecast2.setAttribute('style', 'white-space: pre;');
-                    dayTwoTitle.textContent = foredate2 + ' \r\n';
-                    if (data.list[1].weather[0].main === "Clear") {
-                        forecast2.textContent += sun + '\r\n';
-                    } else {
-                        forecast2.textContent += cloud + '\r\n';
+                    //loop to fill each forecast-day container
+                    for (var i=0; i < forecasts.length; i++) {
+                        forecasts[i].setAttribute('style', 'white-space: pre;');
+                        dayTitles[i].textContent = foredates[i] + ' \r\n';
+                        if (data.list[i].weather[0].main === "Clear") {
+                            forecasts[i].textContent += sun + '\r\n';
+                        } else {
+                            forecasts[i].textContent += cloud + '\r\n';
+                        }
+                        forecasts[i].textContent += 'Temp: ' + Math.round((data.list[i].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
+                        forecasts[i].textContent += 'Wind: ' + Math.round(data.list[i].wind.speed) + 'mph \r\n';
+                        forecasts[i].textContent += 'Humidity: ' + data.list[i].main.humidity + '% \r\n';
                     }
-                    forecast2.textContent += 'Temp: ' + Math.round((data.list[1].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
-                    forecast2.textContent += 'Wind: ' + Math.round(data.list[1].wind.speed) + 'mph \r\n';
-                    forecast2.textContent += 'Humidity: ' + data.list[1].main.humidity + '% \r\n';
-
-                    //forecast day 3
-                    forecast3.setAttribute('style', 'white-space: pre;');
-                    dayThreeTitle.textContent = foredate3 + ' \r\n';
-                    if (data.list[2].weather[0].main === "Clear") {
-                        forecast3.textContent += sun + '\r\n';
-                    } else {
-                        forecast3.textContent += cloud + '\r\n';
-                    }
-                    forecast3.textContent += 'Temp: ' + Math.round((data.list[2].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
-                    forecast3.textContent += 'Wind: ' + Math.round(data.list[2].wind.speed) + 'mph \r\n';
-                    forecast3.textContent += 'Humidity: ' + data.list[2].main.humidity + '% \r\n';
-
-                    //forecast day 4
-                    forecast4.setAttribute('style', 'white-space: pre;');
-                    dayFourTitle.textContent = foredate4 + ' \r\n';
-                    if (data.list[3].weather[0].main === "Clear") {
-                        forecast4.textContent += sun + '\r\n';
-                    } else {
-                        forecast4.textContent += cloud + '\r\n';
-                    }
-                    forecast4.textContent += 'Temp: ' + Math.round((data.list[3].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
-                    forecast4.textContent += 'Wind: ' + Math.round(data.list[3].wind.speed) + 'mph \r\n';
-                    forecast4.textContent += 'Humidity: ' + data.list[3].main.humidity + '% \r\n';
-
-                    //forecast day 5
-                    forecast5.setAttribute('style', 'white-space: pre;');
-                    dayFiveTitle.textContent = foredate5 + ' \r\n';
-                    if (data.list[4].weather[0].main === "Clear") {
-                        forecast5.textContent += sun + '\r\n';
-                    } else {
-                        forecast5.textContent += cloud + '\r\n';
-                    }
-                    forecast5.textContent += 'Temp: ' + Math.round((data.list[4].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
-                    forecast5.textContent += 'Wind: ' + Math.round(data.list[4].wind.speed) + 'mph \r\n';
-                    forecast5.textContent += 'Humidity: ' + data.list[4].main.humidity + '% \r\n';
                 })
 
         })
@@ -199,8 +162,7 @@ cityList.addEventListener('click', function (event) {
     event.preventDefault();
     let itemName = event.target.textContent
     let previousCity = JSON.parse(localStorage.getItem(itemName));
-    displayWind.textContent = 'Wind: ' + Math.round(previousCity.wind.speed) + 'mph';
-    displayHum.textContent = 'Humidity: ' + previousCity.main.humidity + '%';
+    // fivdeDayForecast(previousCity);
 });
 
 //when previous searches are clicked, they become the main display
