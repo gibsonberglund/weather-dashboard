@@ -91,6 +91,8 @@ search.addEventListener('click', function () {
         //convert temp to farenheit, print each stat in its own field
         .then(function (data) {
             console.log(data);
+            let cityName = searched.value;
+            localStorage.setItem(cityName, JSON.stringify(data));
             var ktemp = parseFloat(data.main.temp);
             var ftemp = Math.round((ktemp - 273.15) * 9 / 5 + 32);
             displayTemp.textContent = 'Temp: ' + ftemp + '°';
@@ -128,7 +130,7 @@ search.addEventListener('click', function () {
                 //print forecast data to info cards
                 .then(function (data) {
                     console.log(data);
-
+                    localStorage.setItem('5dayCity1', JSON.stringify(data));
                     //forecast day 1
                     forecast1.setAttribute('style', 'white-space: pre;');
                     dayOneTitle.textContent = foredate1 + ' \r\n';
@@ -193,5 +195,12 @@ search.addEventListener('click', function () {
         })
 });
 
+cityList.addEventListener('click', function (event) {
+    event.preventDefault();
+    let itemName = event.target.textContent
+    let previousCity = JSON.parse(localStorage.getItem(itemName));
+    displayWind.textContent = 'Wind: ' + Math.round(previousCity.wind.speed) + 'mph';
+    displayHum.textContent = 'Humidity: ' + previousCity.main.humidity + '%';
+});
 
 //when previous searches are clicked, they become the main display
