@@ -84,11 +84,7 @@ search.addEventListener('click', function () {
     displayLabel.textContent = searched.value;
     dateDisplay.textContent = date;
 
-    forecast1.textContent = '';
-    forecast2.textContent = '';
-    forecast3.textContent = '';
-    forecast4.textContent = '';
-    forecast5.textContent = '';
+    clearForecast();
 
     //fetch current weather api data
     fetch(queryURL)
@@ -101,6 +97,46 @@ search.addEventListener('click', function () {
             console.log(data);
             let cityName = searched.value;
             localStorage.setItem(cityName, JSON.stringify(data));
+            
+            bigDisplay(data);
+
+            //fetch forecast data and convert to json
+            var FiveDayQueryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + data.coord.lat + '&lon=' + data.coord.lon + "&cnt=5" + "&appid=" + APIkey;
+
+            fetch(FiveDayQueryURL)
+                .then(function (response) {
+                    return response.json();
+                })
+                //print forecast data to info cards
+                .then(function (data) {
+                    fiveDayForecast(data);
+                    console.log(data);
+                    let cityForecast = cityName + 'forecast';
+                    localStorage.setItem(cityForecast, JSON.stringify(data));
+                })
+        })
+    });
+
+cityList.addEventListener('click', function (event) {
+    event.preventDefault();
+    let itemName = event.target.textContent
+    let itemForecast = itemName + 'forecast';
+    let previousCity = JSON.parse(localStorage.getItem(itemName));
+    let previousForecast = JSON.parse(localStorage.getItem(itemForecast));
+    clearForecast();
+    bigDisplay(previousCity);
+    fiveDayForecast(previousForecast);
+});
+
+function clearForecast() {
+    forecast1.textContent = '';
+    forecast2.textContent = '';
+    forecast3.textContent = '';
+    forecast4.textContent = '';
+    forecast5.textContent = '';
+};
+
+function bigDisplay(data) {
             var ktemp = parseFloat(data.main.temp);
             var ftemp = Math.round((ktemp - 273.15) * 9 / 5 + 32);
             displayTemp.textContent = 'Temp: ' + ftemp + '°';
@@ -128,41 +164,22 @@ search.addEventListener('click', function () {
                     gif.setAttribute('class', 'gif');
                 }
             }
+};
 
-            //fetch forecast data and convert to json
-            var FiveDayQueryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + data.coord.lat + '&lon=' + data.coord.lon + "&cnt=5" + "&appid=" + APIkey;
-            fetch(FiveDayQueryURL)
-                .then(function (response) {
-                    return response.json();
-                })
-                //print forecast data to info cards
-                .then(function (data) {
-                    console.log(data);
-                    localStorage.setItem('5dayCity1', JSON.stringify(data));
 
-                    //loop to fill each forecast-day container
-                    for (var i=0; i < forecasts.length; i++) {
-                        forecasts[i].setAttribute('style', 'white-space: pre;');
-                        dayTitles[i].textContent = foredates[i] + ' \r\n';
-                        if (data.list[i].weather[0].main === "Clear") {
-                            forecasts[i].textContent += sun + '\r\n';
-                        } else {
-                            forecasts[i].textContent += cloud + '\r\n';
-                        }
-                        forecasts[i].textContent += 'Temp: ' + Math.round((data.list[i].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
-                        forecasts[i].textContent += 'Wind: ' + Math.round(data.list[i].wind.speed) + 'mph \r\n';
-                        forecasts[i].textContent += 'Humidity: ' + data.list[i].main.humidity + '% \r\n';
-                    }
-                })
-
-        })
-});
-
-cityList.addEventListener('click', function (event) {
-    event.preventDefault();
-    let itemName = event.target.textContent
-    let previousCity = JSON.parse(localStorage.getItem(itemName));
-    // fivdeDayForecast(previousCity);
-});
+function fiveDayForecast(data) {
+    for (var i=0; i < forecasts.length; i++) {
+        forecasts[i].setAttribute('style', 'white-space: pre;');
+        dayTitles[i].textContent = foredates[i] + ' \r\n';
+        if (data.list[i].weather[0].main === "Clear") {
+            forecasts[i].textContent += sun + '\r\n';
+        } else {
+            forecasts[i].textContent += cloud + '\r\n';
+        }
+        forecasts[i].textContent += 'Temp: ' + Math.round((data.list[i].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
+        forecasts[i].textContent += 'Wind: ' + Math.round(data.list[i].wind.speed) + 'mph \r\n';
+        forecasts[i].textContent += 'Humidity: ' + data.list[i].main.humidity + '% \r\n';
+    }
+};
 
 //when previous searches are clicked, they become the main display
