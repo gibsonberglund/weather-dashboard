@@ -24,6 +24,7 @@ var displayTemp = document.querySelector('#temp');
 var displayWind = document.querySelector('#wind');
 var displayHum = document.querySelector('#humidity');
 var displayIcon = document.querySelector('#icon');
+let mainWeather = document.querySelector('#mainweather');
 
 //cards for each day of the forecast
 var forecast1 = document.querySelector('#one');
@@ -42,15 +43,28 @@ let day5Title = document.querySelector('#dayfivetitle');
 
 let dayTitles = [day1Title, day2Title, day3Title, day4Title, day5Title];
 
-var sun = '☀️';
-var cloud = '☁';
+let day1Icon = document.querySelector('#day1icon');
+let day2Icon = document.querySelector('#day2icon');
+let day3Icon = document.querySelector('#day3icon');
+let day4Icon = document.querySelector('#day4icon');
+let day5Icon = document.querySelector('#day5icon');
+
+let dayIcons = [day1Icon, day2Icon, day3Icon, day4Icon, day5Icon];
+
+let sun = '☼';
+let cloud = '☁';
+let rain = '🌧';
+let partlyCloudy = '🌤';
+let mistHaze = '🌫';
+let snow = '☃';
+//TO ADD: Drizzle
 
 function clearInput() {
     searched.value = '';
 }
 
 clearInput();
-//CLEAR LOCAL STORAGE
+localStorage.clear();
 
 //dayjs date display variables
 var date = dayjs().format('dddd, MMMM D, h:mm A');
@@ -68,11 +82,15 @@ let gif = document.querySelector('#gif');
 //when search button is clicked...
 search.addEventListener('click', function () {
     //create a new card in sidebar with city name
-    //remove spaces from user input
-    var searchedNoSpaces = searched.value.replaceAll(' ', '');
+    
+    //format input for api call
+    let inputArray = searched.value.split(',');
+    let cityNameSearch = inputArray[0].replaceAll(' ', '+');
+    let stateNameSearch = inputArray[1].replaceAll(' ', '');
+    let searchInput = cityNameSearch + ',' + stateNameSearch;
 
     //query for current weather
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedNoSpaces + ',840' + "&appid=" + APIkey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchInput + ',840' + "&appid=" + APIkey;
     console.log(queryURL);
     fiveDay.setAttribute('class', 'row');
     var searchedCity = document.createElement('li');
@@ -129,11 +147,10 @@ cityList.addEventListener('click', function (event) {
 });
 
 function clearForecast() {
-    forecast1.textContent = '';
-    forecast2.textContent = '';
-    forecast3.textContent = '';
-    forecast4.textContent = '';
-    forecast5.textContent = '';
+    for (var i=0; i<forecasts.length; i++) {
+    forecasts[i].textContent = '';
+    dayIcons[i].textContent='';
+    }
 };
 
 function bigDisplay(data) {
@@ -145,36 +162,57 @@ function bigDisplay(data) {
 
             //change icon depending on if it's sunny or cloudy
             if (data.weather[0].main === "Clear") {
+                mainWeather.textContent = data.weather[0].main;
                 displayIcon.textContent = sun;
                 gif.src = './assets/images/sun-gif.gif';
                 gif.setAttribute('class', 'gif');
                 // bodyImage.setAttribute('class', 'sunny');
             } else if (data.weather[0].main === "Rain") {
-                displayIcon.textContent = cloud;
+                mainWeather.textContent = data.weather[0].main;
+                displayIcon.textContent = rain;
                 gif.src = './assets/images/rain-gif.gif';
                 gif.setAttribute('class', 'gif');
             } else if (data.weather[0].main === "Clouds") {
                 if (data.weather[0].description === "overcast clouds") {
+                    mainWeather.textContent = "Overcast";
                     displayIcon.textContent = cloud;
                     gif.src = './assets/images/overcast-meme.jpg';
                     gif.setAttribute('class', 'gif');
                 } else {
-                    displayIcon.textContent = cloud;
+                    displayIcon.textContent = partlyCloudy;
+                    mainWeather.textContent = "Partly Cloudy";
                     gif.src = './assets/images/partly-cloudy-gif.gif';
                     gif.setAttribute('class', 'gif');
                 }
+            } else if (data.weather[0].main === "Snow") {
+                mainWeather.textContent = data.weather[0].main;
+                displayIcon.textContent = snow;
+                gif.src = './assets/images/snow-gif.gif';
+                gif.setAttribute('class', 'gif');
+            } else if (data.weather[0].main === "Mist" || data.weather[0].main === "Haze") {
+                mainWeather.textContent = data.weather[0].main;
+                displayIcon.textContent = mistHaze;
+                gif.src = './assets/images/mist-haze-gif.gif';
+                gif.setAttribute('class', 'gif');
             }
 };
-
 
 function fiveDayForecast(data) {
     for (var i=0; i < forecasts.length; i++) {
         forecasts[i].setAttribute('style', 'white-space: pre;');
         dayTitles[i].textContent = foredates[i] + ' \r\n';
         if (data.list[i].weather[0].main === "Clear") {
-            forecasts[i].textContent += sun + '\r\n';
+            dayIcons[i].textContent += sun + '\r\n';
+        } else if (data.list[i].weather[0].main === "Clouds") {
+            dayIcons[i].textContent += cloud + '\r\n';
+        } else if (data.list[i].weather[0].main === "Rain") {
+            dayIcons[i].textContent += rain + '\r\n';
+        } else if (data.list[i].weather[0].main === "Snow") {
+            dayIcons[i].textContent += snow + '\r\n';
+        } else if (data.list[i].weather[0].main === "Mist" || data.list[i].weather[0].main === "Haze" ) {
+            dayIcons[i].textContent += mistHaze + '\r\n';
         } else {
-            forecasts[i].textContent += cloud + '\r\n';
+            dayIcons[i].textContent += partlyCloudy + '\r\n';
         }
         forecasts[i].textContent += 'Temp: ' + Math.round((data.list[i].main.temp - 273.15) * 9 / 5 + 32) + '° \r\n';
         forecasts[i].textContent += 'Wind: ' + Math.round(data.list[i].wind.speed) + 'mph \r\n';

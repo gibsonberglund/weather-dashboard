@@ -17,7 +17,7 @@
 
 <body id='body' class='cloudy'>
     <header>
-        <h1>Weather Dashboard</h1>
+        <h1 class="header">Weather Dashboard</h1>
     </header>
     <main class="mainbody">
         <span class="sidebar">
@@ -25,15 +25,14 @@
             <p class="example">Must be US city</p>
             <input placeholder="ex: Minneapolis, MN" type="text" id="searchbar"></input>
             <div class="button" id="searchbtn">Search</div>
-            <ul id="citylist"></ul>
         </span>
         <section class="maindisplay" id="maindisplay">
             <div class="citydate">
                 <h2 id="displaylabel"></h2>
                 <p id="date"></p>
+                <h2 id="mainweather"></h2>
             </div>
             <ul class="infolist">
-                
                 <li id="icon"></li>
                 <li id="temp"></li>
                 <li id="wind"></li>
@@ -41,27 +40,33 @@
             </ul>
             <img id='gif' class="hidden">
         </section>
+        <ul id="citylist">Previous Searches: </ul>
     </main>
     <section class ="hidden" id="fiveday">
         <h3>Five Day Forecast: </h3>
         <div class="fivedaycard">
             <h2 id="dayonetitle"></h2>
+            <p id="day1icon" class="fivedayicon"></p>
             <p  id="one"></p>
         </div>
         <div class="fivedaycard">
             <h2 id="daytwotitle"></h2>
+            <p id="day2icon" class="fivedayicon"></p>
             <p  id="two"></p>
         </div>
         <div class="fivedaycard">
             <h2 id="daythreetitle"></h2>
+            <p id="day3icon" class="fivedayicon"></p>
             <p  id="three"></p>
         </div>
         <div class="fivedaycard">
             <h2 id="dayfourtitle"></h2>
+            <p id="day4icon" class="fivedayicon"></p>
             <p  id="four"></p>
         </div>
         <div class="fivedaycard">
             <h2 id="dayfivetitle"></h2>
+            <p id="day5icon" class="fivedayicon"></p>
             <p  id="five"></p>
         </div>
     </section>

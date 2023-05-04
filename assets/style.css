@@ -1,3 +1,7 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .cloudy {
     background-image: url('./images/cloud-background.jpeg');
 }
@@ -12,8 +16,9 @@
 
 .citycard {
     width: 200px;
-    color: white;
-    background-color: blue;
+    color: black;
+    /* background-color: blue; */
+    background-image: url('./images/blue-sky.jpeg');
     font-size: 16px;
     text-align: center;
     border-radius: 10px;
@@ -21,10 +26,13 @@
     margin: 5px;
 }
 
+.citycard:hover {
+    cursor: pointer;
+}
+
 h1 {
     font-size: 32px;
-    color: white;
-    background-color: blue;
+    color: black;
     width: 100%;
     text-align: center;
 }
@@ -37,13 +45,18 @@ h1 {
 
 .button {
     width: 150px;
-    color: white;
-    background-color: black;
+    color: black;
+    /* background-color: black; */
+    background-image: url('./images/blue-sky.jpeg');
     font-size: 18px;
     text-align: center;
     border-radius: 10px;
     padding: 5px;
     margin: 5px;
+}
+
+.button:hover {
+    cursor: pointer;
 }
 
 .mainbody {
@@ -60,8 +73,12 @@ h1 {
     padding: 1%;
 }
 
-#displaylabel {
-    margin-left: 10px;
+#mainweather {
+    color: #00fff3;
+}
+
+#icon {
+    font-size: 75px;
 }
 
 
@@ -73,6 +90,15 @@ h1 {
     width: 200px;
     height: 200px;
     border: 2px solid black;
+}
+
+.fivedaycard h2 {
+    color: blue;
+}
+
+.fivedayicon {
+    font-size: 35px;
+    margin: -5%;
 }
 
 .hidden {
@@ -100,6 +126,7 @@ h1 {
     list-style: none;
     text-align: center;
     padding: 8%;
+    padding-top: 0%;
 }
 
 #citylist {
